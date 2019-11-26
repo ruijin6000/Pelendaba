@@ -12,5 +12,6 @@
     <orderEntry type="library" name="@types/passport" level="application" />
     <orderEntry type="library" name="@types/passport-google-oauth20" level="application" />
     <orderEntry type="library" name="@types/mongoose" level="application" />
+    <orderEntry type="library" name="@types/cookie-session" level="application" />
   </component>
 </module>
