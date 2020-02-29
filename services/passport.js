@@ -13,9 +13,8 @@ passport.serializeUser((user, done) => {
 });
 
 passport.deserializeUser((id, done) => {
-    User.findOne()
-        .then(user => {
-            done(null, user);
+    User.findById(id).then(user => {
+           done(null, user);
             console.log("Dserializeuser ID: ", user.id);
         })
 
@@ -33,11 +32,11 @@ passport.deserializeUser((id, done) => {
 //             const existingUser = await User.findOne({googleId: profile.id});
 //
 //             if (existingUser) {
-//                 // we already have a record with the given profile ID
+//
 //                 console.log("Existed User", existingUser);
 //                 return (null, existingUser);
 //             } else {
-//                 // we don't have a user record with this ID. make a new record
+//
 //                 const user = await new User({googleId: profile.id}).save();
 //                 done(null, user);
 //                 console.log("New User");
