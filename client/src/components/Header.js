@@ -14,6 +14,8 @@ class Header extends Component {
             default :
                 return [
                     <li key ="1"><Payments /></li>,
+                    <li key="3" style = {{margin:'0 10px'}}>
+                        Credits:{this.props.auth.credits} </li>,
                     <li key ="2" > <a href="/api/logout">LogOut</a></li>
                     ];
         }
@@ -27,9 +29,8 @@ class Header extends Component {
                     <Link
                         to={this.props.auth ? '/surveys' :'/' }
                         className="left brand-logo"
-                    >Emaily
+                    >MAXG
                     </Link>
-
                     <ul className="right">
                        { this.renderContent()}
                     </ul>
