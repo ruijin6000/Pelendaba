@@ -9,7 +9,9 @@ class SurveyNew extends Component  {
   renderContent() {
 
       if(this.state.showFormReview) {
-          return <SurveyFormReview/>
+          return <SurveyFormReview
+           onCancel = {()=>this.setState({showFormReview: false})}
+          />
       }
 
       return  (<SurveyForm
@@ -18,7 +20,6 @@ class SurveyNew extends Component  {
   }
 
    render() {
-      console.log(this.state.showFormReview);
        return (
          <div>
              {this.renderContent()}
