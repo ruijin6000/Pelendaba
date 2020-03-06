@@ -13,6 +13,16 @@ export const handleToken =(token) => async dispatch => {
 
 };
 
+
+export const submitSurvey = values => {
+  return { type: 'submit_survey'};
+
+};
+
+
+
+
+
 // export const fetchUser = () => {
 //      // axios.get ('/api/current_user');
 //      return function(dispatch){
