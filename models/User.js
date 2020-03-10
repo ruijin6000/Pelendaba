@@ -9,6 +9,7 @@ mongoose.set('useUnifiedTopology', true);
 
 const userSchema = new Schema ({
     googleId : String,
+    facebookId : String,
     name: String,
     credits: {type : Number , default : 0 }
 });
