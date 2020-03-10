@@ -2,7 +2,7 @@ const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const mongoose = require('mongoose');
 const keys = require('../config/keys');
-
+const FacebookStrategy = require('passport-facebook');
 const User = mongoose.model('users');
 
 passport.serializeUser((user, done) => {
@@ -14,9 +14,9 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
     User.findById(id).then(user => {
-           done(null, user);
-            console.log("Dserializeuser ID: ", user.id);
-        })
+        done(null, user);
+        console.log("Dserializeuser ID: ", user.id);
+    })
 
 });
 
@@ -26,18 +26,18 @@ passport.use(
         clientSecret: keys.googleClientSecret,
         callbackURL: '/auth/google/callback',
         proxy: true
-    }, (accessToken,refreshToken,profile,done)=>{
+    }, (accessToken, refreshToken, profile, done) => {
         User.findOne({googleId: profile.id})
-            .then((existingUser)=>{
-                if(existingUser) {
+            .then((existingUser) => {
+                if (existingUser) {
                     // we already have a record with the given profile ID
                     console.log("Existed User");
-                    done(null,existingUser);
+                    done(null, existingUser);
                 } else {
                     // we don't have a user record with this ID. make a new record
-                    new User({googleId:profile.id})
+                    new User({googleId: profile.id})
                         .save()
-                    .then(user => done(null,user));
+                        .then(user => done(null, user));
                     console.log("New User");
                 }
             });
@@ -47,7 +47,33 @@ passport.use(
 );
 
 
+passport.use(
+    new FacebookStrategy({
+            clientID: keys.faceBookID,
+            clientSecret: keys.faceBookSecret,
+            callbackURL: '/auth/facebook/callback',
+            proxy: true
+        },
+        function (accessToken, refreshToken, profile, cb) {
+            console.log("FaceBook");
+            console.log(profile);
+            User.findOne({facebookId: profile.id})
+                .then((existingUser) => {
+                    if (existingUser) {
+                        // we already have a record with the given profile ID
+                        console.log("Existed User FB");
+                        cb(null, existingUser);
+                    } else {
+                        // we don't have a user record with this ID. make a new record
+                        new User({facebookId: profile.id})
+                            .save()
+                            .then(user => cb(null, user));
+                        console.log("New User FB");
+                    }
+                });
 
+        }
+    ));
 
 
 // passport.use(
