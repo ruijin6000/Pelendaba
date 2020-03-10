@@ -10,7 +10,10 @@ class Header extends Component {
             case null :
                 return 'Still deciding';
             case false :
-                return <li><a href="/auth/google">Login With Google </a></li>;
+                return (<div>
+                    <li><a href="/auth/google">Login With Google </a></li>
+                    <li><a href="/auth/google">Login With WeChat </a></li>
+                    </div>);
             default :
                 return [
                     <li key ="1"><Payments /></li>,
