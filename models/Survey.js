@@ -15,3 +15,18 @@ const surveySchema = new Schema( {
 });
 
 mongoose.model('surveys',surveySchema);
+
+/**
+ *  Query for update survey data for specific email && surveyId *
+ choice = 'yes' || 'no';
+ Survey.updateOne({
+    id: surveyId,
+    recipients: {
+        $elemMatch:{ email: email, responded: false }
+        }
+    }, {
+    $inc: {[choice]:1},
+    $set: {'recipients.$.responded': true}
+});
+
+ **/
