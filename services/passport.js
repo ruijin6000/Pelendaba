@@ -28,13 +28,19 @@ passport.use(
             clientSecret: keys.googleClientSecret,
             callbackURL: '/auth/google/callback',
             proxy: true
-        }, async (accessToken, refreshToken, profile, done) =>  {
+        }, async (accessToken, refreshToken, profile, done) => {
             const existingUser = await User.findOne({googleId: profile.id});
             if (existingUser) {
                 console.log("Existed User", existingUser);
-                done (null, existingUser);
+                done(null, existingUser);
             } else {
-                const user = await new User({googleId: profile.id}).save();
+                const user = await new User(
+                    {
+                        googleId: profile.id,
+                        name: profile.displayName,
+                        email: profile.emails[0].value,
+
+                    }).save();
                 done(null, user);
                 console.log("New User");
             }
@@ -50,8 +56,6 @@ passport.use(
             proxy: true
         },
         function (accessToken, refreshToken, profile, cb) {
-            console.log("FaceBook");
-            console.log(profile);
             User.findOne({facebookId: profile.id})
                 .then((existingUser) => {
                     if (existingUser) {
@@ -60,7 +64,10 @@ passport.use(
                         cb(null, existingUser);
                     } else {
                         // we don't have a user record with this ID. make a new record
-                        new User({facebookId: profile.id})
+                        new User(
+                            {facebookId: profile.id,
+                                name: profile.displayName,
+                            })
                             .save()
                             .then(user => cb(null, user));
                         console.log("New User FB");
@@ -69,9 +76,6 @@ passport.use(
 
         }
     ));
-
-
-
 
 
 // passport.use(
