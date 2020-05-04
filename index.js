@@ -31,8 +31,6 @@ require('./routes/surveyRoutes')(app);
 //console.developers.google.com
 
 
-
-
 if (process.env.NODE_ENV === 'production') {
     app.use(express.static('client/build'));
     app.get('*', (req, res) => {
